@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+      tier: backend
+  replicas: {{ .Values.replica }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+        tier: backend
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.healthcheck.url }}
+              port: {{ .Values.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.healthcheck.url }}
+              port: {{ .Values.containerPort }}

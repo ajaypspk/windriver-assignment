@@ -1,0 +1,13 @@
+replica: 1
+image:
+  repo: ajaypspk/encrpt-decrypt-app
+  tag: latest
+healthcheck: 
+  url: /api/health
+name: encrpt-decrypt-app
+containerPort: 5000
+service:
+  name: encrpt-decrypt-app
+  type: LoadBalancer
+  port: 5000
+  targetPort: 5000
